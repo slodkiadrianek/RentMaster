@@ -1,0 +1,30 @@
+{
+  "name": "rentmaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx tsx watch ./src/server.ts",
+    "build": "tsc",
+    "start": "node build/server.js",
+    "eslint": "eslint src"
+  },
+  "keywords": ["Car Rental" ],
+  "author": "Adrian Kurek",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.21.1",
+    "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.15.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.0",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0",
+    "tsx": "^4.19.2",
+    "typescript-eslint": "^8.16.0"
+  }
+}
