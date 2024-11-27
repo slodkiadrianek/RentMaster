@@ -11,17 +11,24 @@
     "start": "node build/server.js",
     "eslint": "eslint src"
   },
-  "keywords": ["Car Rental" ],
+  "keywords": [
+    "Car Rental"
+  ],
   "author": "Adrian Kurek",
   "license": "MIT",
   "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "drizzle-orm": "^0.36.4",
     "express": "^4.21.1",
+    "mysql2": "^3.11.4",
     "typescript": "^5.7.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
     "@types/express": "^5.0.0",
     "@types/node": "^22.10.0",
+    "dotenv": "^16.4.5",
+    "drizzle-kit": "^0.28.1",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
     "tsx": "^4.19.2",
