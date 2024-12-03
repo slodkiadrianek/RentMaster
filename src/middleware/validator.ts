@@ -1,6 +1,6 @@
 import validationSchemas from "./schema.js";
 import { ObjectSchema } from "joi";
-import { Request, Response, NextFunction, Application } from "express";
+import { Request, Response, NextFunction } from "express";
 import { ValidationResult } from "joi";
 
 export const validate = (
@@ -9,7 +9,7 @@ export const validate = (
   next: NextFunction
 ): void => {
   const schema: ObjectSchema = validationSchemas[req.path.split("/")[1]];
-  if (req.body.email) req.body.email = req.body.email.toLowerCase();
+  if (req.body.email) req.body.email = req.body.email.toLowerCase().trim();
   const result: ValidationResult = schema.validate(req.body);
   if (result.error) {
     res

@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  userId      Int           @id @default(autoincrement())
+  name        String
+  surname     String
+  email       String        @unique
+  age         Int
+  phoneNumber Int
+  roleId      Int
+  password    String
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  Role        UserRole      @relation(fields: [roleId], references: [roleId])
+  Reservation Reservation[]
+}
+
+model UserRole {
+  roleId Int    @id @default(autoincrement())
+  name   String @unique
+  Users  User[]
+}
+
+model Car {
+  carId          Int              @id @default(autoincrement())
+  manufacturerId Int
+  model          String
+  carTypeId      Int
+  licensePlate   String           @unique
+  statusId       Int
+  pricePerDay    Int
+  locationId     Int
+  vin            String
+  transmissionId Int
+  seatsId        Int
+  Manufacturer   Manufacturer     @relation(fields: [manufacturerId], references: [manufacturerId])
+  CarType        CarType          @relation(fields: [carTypeId], references: [carTypeId])
+  Status         Status           @relation(fields: [statusId], references: [statusId])
+  Location       Location         @relation(fields: [locationId], references: [locationId])
+  Transmission   Transmission     @relation(fields: [transmissionId], references: [transmissionId])
+  Seats          NumberOfSeats    @relation(fields: [seatsId], references: [seatsId])
+  ServiceHistory ServiceHistory[]
+  Photos         Photos[]
+  Insurance      Insurance[]
+  Reservations   Reservation[]
+}
+
+model ServiceHistory {
+  serviceId   Int      @id @default(autoincrement())
+  carId       Int
+  date        DateTime
+  description String
+  cost        Int
+  Car         Car      @relation(fields: [carId], references: [carId])
+}
+
+model Photos {
+  photoId  Int    @id @default(autoincrement())
+  carId    Int
+  photoUrl String
+  Car      Car    @relation(fields: [carId], references: [carId])
+}
+
+model Insurance {
+  insuranceId         Int               @id @default(autoincrement())
+  insuranceProviderId Int
+  insuranceTypeId     Int
+  validUntil          DateTime
+  carId               Int
+  InsuranceProvider   InsuranceProvider @relation(fields: [insuranceProviderId], references: [insuranceProviderId])
+  InsuranceType       InsuranceType     @relation(fields: [insuranceTypeId], references: [insuranceTypeId])
+  Car                 Car               @relation(fields: [carId], references: [carId])
+}
+
+model InsuranceProvider {
+  insuranceProviderId Int         @id @default(autoincrement())
+  providerName        String      @unique
+  Insurances          Insurance[]
+}
+
+model InsuranceType {
+  insuranceTypeId Int         @id @default(autoincrement())
+  name            String      @unique
+  description     String
+  Insurances      Insurance[]
+}
+
+model NumberOfSeats {
+  seatsId       Int   @id @default(autoincrement())
+  numberOfSeats Int
+  Cars          Car[]
+}
+
+model Location {
+  locationId   Int    @id @default(autoincrement())
+  locationName String @unique
+  Cars         Car[]
+}
+
+model Status {
+  statusId   Int    @id @default(autoincrement())
+  statusName String @unique
+  Cars       Car[]
+}
+
+model CarType {
+  carTypeId   Int    @id @default(autoincrement())
+  carTypeName String @unique
+  Cars        Car[]
+}
+
+model Reservation {
+  reservationId       Int               @id @default(autoincrement())
+  userId              Int
+  carId               Int
+  startDate           DateTime
+  endDate             DateTime
+  totalCost           Int
+  reservationStatusId Int
+  handingOverDate     DateTime
+  User                User              @relation(fields: [userId], references: [userId])
+  Car                 Car               @relation(fields: [carId], references: [carId])
+  ReservationStatus   ReservationStatus @relation(fields: [reservationStatusId], references: [reservationStatusId])
+  Invoice             Invoice[]
+}
+
+model ReservationStatus {
+  reservationStatusId   Int           @id @default(autoincrement())
+  reservationStatusName String        @unique
+  Reservations          Reservation[]
+}
+
+model Manufacturer {
+  manufacturerId   Int    @id @default(autoincrement())
+  manufacturerName String @unique
+  Cars             Car[]
+}
+
+model Transmission {
+  transmissionId   Int    @id @default(autoincrement())
+  transmissionName String @unique
+  Cars             Car[]
+}
+
+model Invoice {
+  invoiceId       Int           @id @default(autoincrement())
+  reservationId   Int
+  invoiceUrl      String
+  issuedDate      DateTime
+  dueDate         DateTime
+  currency        String
+  paymentStatusId Int
+  paidDate        DateTime
+  transactionId   Int
+  paymentMethodId Int
+  totalCost       Int
+  Reservation     Reservation   @relation(fields: [reservationId], references: [reservationId])
+  PaymentStatus   PaymentStatus @relation(fields: [paymentStatusId], references: [paymentStatusId])
+  PaymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [paymentMethodId])
+}
+
+model PaymentStatus {
+  paymentStatusId   Int       @id @default(autoincrement())
+  paymentStatusName String    @unique
+  Invoices          Invoice[]
+}
+
+model PaymentMethod {
+  paymentMethodId   Int       @id @default(autoincrement())
+  paymentMethodName String    @unique
+  Invoices          Invoice[]
+}

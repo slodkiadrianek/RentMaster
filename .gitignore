@@ -3,6 +3,7 @@
 node_modules
 build
 .env
-src/db/local.db
+local.db
 .VSCodeCounter
 .vscode
+prisma/migrations/local.db

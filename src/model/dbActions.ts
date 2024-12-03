@@ -1,12 +1,37 @@
-import { db } from "../app.js";
-import { eq } from "drizzle-orm";
+import { prisma } from "../utils/db.js";
+import { PrismaClient } from "@prisma/client";
 
-export async function insertData(table: any, data: any) {
-  const result = await db.insert(table).values(data).returning();
+export interface IUser {
+  userId: number;
+  name: string;
+  surname: string;
+  email: string;
+  age: number;
+  phoneNumber: number;
+  roleId: number;
+  password: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export async function insertData(table: string, data: any): Promise<object> {
+  const result = await (prisma[table as keyof PrismaClient] as any).create({
+    data: {
+      ...data,
+    },
+  });
   return result;
 }
 
-export async function findEmail(table: any, email: any) {
-  const result = await db.select().from(table).where(eq(table.email, email));
+export async function deleteData(table: string, id: number): Promise<void> {
+  await (prisma[table as keyof PrismaClient] as any).delete({
+    where: { id: id },
+  });
+}
+
+export async function findEmail(email: string): Promise<IUser | null> {
+  const result: IUser | null = await prisma.user.findFirst({
+    where: { email: email },
+  });
   return result;
 }

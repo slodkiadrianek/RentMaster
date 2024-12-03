@@ -1,8 +1,9 @@
 export class AppError extends Error {
-  errorCode: number;
-  errorDescription: string;
-  typeError: string;
-  constructor(typeError: string, errorCode: number, errorDescription: string) {
+  constructor(
+    public typeError: string,
+    public errorCode: number,
+    public errorDescription: string,
+  ) {
     super();
     Object.setPrototypeOf(this, new.target.prototype);
     this.errorCode = errorCode;

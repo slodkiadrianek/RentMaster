@@ -1,13 +1,11 @@
 import express from "express";
 import { validate } from "../middleware/validator.js";
-import { register } from "../controller/acces.js";
+import { register, login } from "../controller/access.js";
 
 const router = express.Router();
 
-router.post("/register", validate, register as any);
+router.post("/register", validate, register);
 
-router.post("/login");
-
-router.post("/resetPassword");
+router.post("/login", validate, login);
 
 export default router;
