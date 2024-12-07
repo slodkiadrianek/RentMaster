@@ -6,9 +6,9 @@ import { ValidationResult } from "joi";
 export const validate = (
   req: Request,
   res: Response,
-  next: NextFunction
+  next: NextFunction,
 ): void => {
-  const schema: ObjectSchema = validationSchemas[req.path.split("/")[1]];
+  const schema: ObjectSchema = validationSchemas[req.path.split("/")[2]];
   if (req.body.email) req.body.email = req.body.email.toLowerCase().trim();
   const result: ValidationResult = schema.validate(req.body);
   if (result.error) {

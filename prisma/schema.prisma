@@ -43,15 +43,16 @@ model Car {
   vin            String
   transmissionId Int
   seatsId        Int
+  insuranceId    Int              @unique
   Manufacturer   Manufacturer     @relation(fields: [manufacturerId], references: [manufacturerId])
   CarType        CarType          @relation(fields: [carTypeId], references: [carTypeId])
   Status         Status           @relation(fields: [statusId], references: [statusId])
   Location       Location         @relation(fields: [locationId], references: [locationId])
   Transmission   Transmission     @relation(fields: [transmissionId], references: [transmissionId])
   Seats          NumberOfSeats    @relation(fields: [seatsId], references: [seatsId])
+  Insurance      Insurance        @relation(fields: [insuranceId], references: [insuranceId])
   ServiceHistory ServiceHistory[]
   Photos         Photos[]
-  Insurance      Insurance[]
   Reservations   Reservation[]
 }
 
@@ -76,10 +77,9 @@ model Insurance {
   insuranceProviderId Int
   insuranceTypeId     Int
   validUntil          DateTime
-  carId               Int
   InsuranceProvider   InsuranceProvider @relation(fields: [insuranceProviderId], references: [insuranceProviderId])
   InsuranceType       InsuranceType     @relation(fields: [insuranceTypeId], references: [insuranceTypeId])
-  Car                 Car               @relation(fields: [carId], references: [carId])
+  Car                 Car?
 }
 
 model InsuranceProvider {
@@ -131,7 +131,7 @@ model Reservation {
   User                User              @relation(fields: [userId], references: [userId])
   Car                 Car               @relation(fields: [carId], references: [carId])
   ReservationStatus   ReservationStatus @relation(fields: [reservationStatusId], references: [reservationStatusId])
-  Invoice             Invoice[]
+  Invoice             Invoice?
 }
 
 model ReservationStatus {
@@ -153,30 +153,14 @@ model Transmission {
 }
 
 model Invoice {
-  invoiceId       Int           @id @default(autoincrement())
-  reservationId   Int
-  invoiceUrl      String
-  issuedDate      DateTime
-  dueDate         DateTime
-  currency        String
-  paymentStatusId Int
-  paidDate        DateTime
-  transactionId   Int
-  paymentMethodId Int
-  totalCost       Int
-  Reservation     Reservation   @relation(fields: [reservationId], references: [reservationId])
-  PaymentStatus   PaymentStatus @relation(fields: [paymentStatusId], references: [paymentStatusId])
-  PaymentMethod   PaymentMethod @relation(fields: [paymentMethodId], references: [paymentMethodId])
-}
-
-model PaymentStatus {
-  paymentStatusId   Int       @id @default(autoincrement())
-  paymentStatusName String    @unique
-  Invoices          Invoice[]
-}
-
-model PaymentMethod {
-  paymentMethodId   Int       @id @default(autoincrement())
-  paymentMethodName String    @unique
-  Invoices          Invoice[]
+  invoiceId      Int         @id @default(autoincrement())
+  reservationId  Int         @unique
+  invoiceUrl     String
+  issuedDate     DateTime
+  dueDate        DateTime
+  currency       String
+  paidDate       DateTime
+  transactionUrl Int
+  totalCost      Int
+  Reservation    Reservation @relation(fields: [reservationId], references: [reservationId])
 }

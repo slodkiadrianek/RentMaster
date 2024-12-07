@@ -1,13 +1,12 @@
 import express from "express";
 import { loginVerifier } from "../middleware/loginVeriffier.js";
-import { historyOfReservations } from "../controller/customerOperations.js";
+import {
+  showReservations,
+  showReservation,
+} from "../controller/customerOperations.js";
 
 const router = express.Router();
 
-router.get(
-  "/customer/historyOfReservations",
-  loginVerifier,
-  historyOfReservations,
-);
-
+router.get("/customer/showReservations", loginVerifier, showReservations);
+router.get("/customer/showReservation/:id", loginVerifier, showReservation);
 export default router;

@@ -1,10 +1,11 @@
 import express, { Request, Response, NextFunction } from "express";
 import "dotenv/config";
-import access from "./routes/access.js";
+import customerAccess from "./routes/access.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import customerOperations from "./routes/customerOperations.js";
 export const app = express();
 import { createClient } from "redis";
+import employeeOperations from "./routes/employeeOperations.js";
 
 export const client = await createClient({
   url: "redis://192.168.0.100:6379",
@@ -21,6 +22,7 @@ app.use((_req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use(access);
-app.use(errorHandler);
+app.use(employeeOperations);
+app.use(customerAccess);
 app.use(customerOperations);
+app.use(errorHandler);

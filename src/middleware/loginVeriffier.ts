@@ -16,12 +16,10 @@ export const loginVerifier = (
       token,
       process.env.SECRET_KEY as string,
     ) as JwtPayload;
-    console.log(decoded);
     (req as Request & { user: unknown }).user = {
       userId: decoded.userId,
       roleId: decoded.roleId,
     };
-    console.log(req.user.userId);
     next();
   } catch (error) {
     next(error);

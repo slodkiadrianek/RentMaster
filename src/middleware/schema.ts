@@ -15,7 +15,15 @@ const loginSchema = Joi.object({
   password: Joi.string().required().alphanum().min(8).max(30),
 });
 
+const createReservationSchema = Joi.object({
+  userId: Joi.number().required(),
+  carId: Joi.number().required(),
+  startDate: Joi.date().required(),
+  endDate: Joi.date().required(),
+});
+
 export default {
   register: registerSchema,
   login: loginSchema,
+  reservation_create: createReservationSchema,
 } as { [key: string]: ObjectSchema };

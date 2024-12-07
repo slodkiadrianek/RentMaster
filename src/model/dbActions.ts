@@ -1,18 +1,6 @@
 import { prisma } from "../utils/db.js";
 import { PrismaClient } from "@prisma/client";
-
-export interface IUser {
-  userId: number;
-  name: string;
-  surname: string;
-  email: string;
-  age: number;
-  phoneNumber: number;
-  roleId: number;
-  password: string;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IUser } from "../types/dbReturns.js";
 
 export async function insertData(table: string, data: any): Promise<object> {
   const result = await (prisma[table as keyof PrismaClient] as any).create({

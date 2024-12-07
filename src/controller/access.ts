@@ -1,8 +1,9 @@
 import { Request, Response, NextFunction } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { insertData, findEmail, IUser } from "../model/dbActions.js";
+import { insertData, findEmail } from "../model/dbActions.js";
 import { AppError } from "../model/appError.js";
+import { IUser } from "../types/dbReturns.js";
 
 export const register = async (
   req: Request,
@@ -22,7 +23,7 @@ export const register = async (
       age: +req.body.age,
       phoneNumber: +req.body.phoneNumber,
       password: hashedPassword,
-      roleId: 1,
+      roleId: req.path.split("/")[1] === "customer" ? 1 : 2,
     };
     const result = await insertData("User", user);
     res.status(201).json(result);
@@ -48,11 +49,10 @@ export const login = async (
     }
     const password: string = req.body.password;
     const hashedPassword: string = exist.password;
-    const isMatch = bcrypt.compareSync(password, hashedPassword);
+    const isMatch: boolean = bcrypt.compareSync(password, hashedPassword);
     if (!isMatch) {
       throw new AppError("user error", 409, "Incorrect password");
     }
-
     const token: string = jwt.sign(
       { userId: exist.userId, roleId: exist.roleId },
       process.env.SECRET_KEY as string,

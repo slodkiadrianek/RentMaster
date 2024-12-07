@@ -17,6 +17,7 @@
   "author": "Adrian Kurek",
   "license": "MIT",
   "dependencies": {
+    "@ironsoftware/ironpdf-engine-windows-x64": "^2024.11.1",
     "@libsql/client": "^0.14.0",
     "@prisma/client": "^6.0.1",
     "bcrypt": "^5.1.1",
@@ -43,6 +44,7 @@
     "stripe": "^17.4.0",
     "tsx": "^4.19.2",
     "typescript-eslint": "^8.16.0",
-    "vitest": "^2.1.6"
+    "vitest": "^2.1.6",
+    "wrangler": "^3.93.0"
   }
 }
