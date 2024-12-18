@@ -1,0 +1,20 @@
+{
+  "name": "rentmaster",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/slodkiadrianek/RentMaster.git"
+  },
+  "keywords": ["Rent", "Cars"],
+  "author": "Adrian Kurek",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/slodkiadrianek/RentMaster/issues"
+  },
+  "homepage": "https://github.com/slodkiadrianek/RentMaster#readme"
+}
